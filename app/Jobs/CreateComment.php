@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class CreateComment implements ShouldQueue
 {
@@ -36,6 +37,10 @@ class CreateComment implements ShouldQueue
      */
     public function handle()
     {
-        $this->commentRepository->store($this->data);
+        Redis::throttle('key')->allow(10)->every(1)->then(function () {
+            $this->commentRepository->store($this->data);
+        }, function () {
+            return $this->release(1);
+        });
     }
 }

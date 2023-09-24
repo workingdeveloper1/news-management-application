@@ -5,11 +5,10 @@ use App\Models\News;
 
 class NewsRepository implements NewsRepositoryInterface{
     public function findAll(){
-        return News::simplePaginate(4);
+        return News::paginate(4);
     }
 
     public function findById($id){
-        // return News::with('comments')->find($id);
         return News::find($id);
     }
 

@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+
 class ImageHelper{
     public static function uploadImage($request){
         if($file = $request->hasFile('image')) {
@@ -13,6 +16,12 @@ class ImageHelper{
             return "/News/Image/" . $time . $fileName;
         }else {
             return "";
+        }
+    }
+
+    public static function deleteImage($newsImage) {
+        if (File::exists(public_path() . $newsImage)) {
+            File::delete(public_path() . $newsImage);
         }
     }
 }

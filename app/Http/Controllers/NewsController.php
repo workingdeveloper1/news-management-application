@@ -53,6 +53,7 @@ class NewsController extends Controller
 
         if ($news) {
             $validatedData['image'] = ImageHelper::uploadImage($request);
+            ImageHelper::deleteImage($news->image);
             $this->newsRepository->update($news, $validatedData);
             event(new SuccessUpdateNews($validatedData));
 
@@ -66,6 +67,7 @@ class NewsController extends Controller
         $news = $this->newsRepository->findById($id);
         if ($news) {
             $this->newsRepository->delete($news);
+            ImageHelper::deleteImage($news->image);
             event(new SuccessDeleteNews($news));
             return ResponseFormatter::success(null, "Successfully deleted news");
         }else{

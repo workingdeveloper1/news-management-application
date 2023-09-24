@@ -9,4 +9,5 @@
 8. php artisan migrate
 10. php artisan db:seed
 11. php artisan passport:install --force
-12. php artisan serve
+12. Install dan jalankan redis
+13. php artisan serve
